@@ -2,11 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:otp_text_field/otp_field.dart';
-import 'package:otp_text_field/style.dart';
-import 'package:telephony/telephony.dart';
 
 import 'circleFlip.dart';
 import 'home.dart';
@@ -15,19 +11,11 @@ enum PhoneVerificationState { SHOW_PHONE_FORM_STATE, SHOW_OTP_FORM_STATE }
 
 class PhoneAuthPage extends StatefulWidget {
   @override
-  _PhoneAuthPageState createState() =>
-      _PhoneAuthPageState(first: false, last: false);
+  _PhoneAuthPageState createState() => _PhoneAuthPageState();
 }
 
 class _PhoneAuthPageState extends State<PhoneAuthPage> {
-
-  Telephony telephony = Telephony.instance;
-  OtpFieldController otpbox = OtpFieldController();
-
-
-  final bool first;
-  final bool last;
-  _PhoneAuthPageState({required this.first, required this.last});
+  bool isAuthCheckInProcess = false;
 
   final GlobalKey<ScaffoldState> _scaffoldKeyForSnackBar = GlobalKey();
   PhoneVerificationState currentState =
@@ -42,12 +30,6 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
 
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-
-
-
-
-
-
   _verifyPhoneButton() async {
     print('Phone Number: +91${phoneController.text.trim()}');
     setState(() {
@@ -58,9 +40,10 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
         verificationCompleted: (phoneAuthCredential) async {
           setState(() {
             spinnerLoading = false;
+            otpController.text = phoneAuthCredential.smsCode.toString();
+            isAuthCheckInProcess = true;
+            _verifyOTPButton();
           });
-          //TODO: Auto Complete Function
-          //signInWithPhoneAuthCredential(phoneAuthCredential);
         },
         verificationFailed: (verificationFailed) async {
           setState(() {
@@ -92,8 +75,6 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
             smsCode: otpController.text);
     signInWithPhoneAuthCredential(phoneAuthCredential);
   }
-
- 
 
   void signInWithPhoneAuthCredential(
       PhoneAuthCredential phoneAuthCredential) async {
@@ -218,40 +199,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
           child: TextField(
             controller: otpController,
             textAlign: TextAlign.justify,
-
-            
-            
           ),
-          
-
-          // child: OTPTextField(
-          //             controller: otpbox,
-                      
-                      
-          //             length: 6,
-          //             width: MediaQuery.of(context).size.width,
-          //             fieldWidth: 50,
-          //             style: TextStyle(
-          //               fontSize: 17
-          //             ),
-          //             textFieldAlignment: MainAxisAlignment.spaceAround,
-          //             fieldStyle: FieldStyle.box,
-          //             onCompleted: (pin) {
-          //                  print("Entered OTP Code: $pin");
-          //             },
-          //         ),
-
-          // child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          //   Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //     children: [
-          //       for (int i = 0; i <= 1;i++)
-          //       _otp(first: true, last: false),
-
-          //       _otp(first: false, last: true),
-          //     ],
-          //   )
-          // ]),
 
           // child: OtpTextField(
           //   numberOfFields: 6,
@@ -328,44 +276,4 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
       ),
     ));
   }
-
-  // Widget _otp({required bool first, required bool last}) {
-  //   return Container(
-  //     height: 49.h,
-  //     child: AspectRatio(
-  //       aspectRatio: 1.0,
-  //       child: TextField(
-
-  //         controller: otpController,
-  //         autofocus: true,
-  //         onChanged: (value) {
-  //           if (value.length == 1 && last == false) {
-  //             FocusScope.of(context).nextFocus();
-  //           }
-  //           if (value.length == 0 && first == false) {
-  //             FocusScope.of(context).previousFocus();
-  //           }
-  //         },
-  //         showCursor: false,
-  //         readOnly: false,
-  //         textAlign: TextAlign.center,
-  //         // style: MyStyles.inputTextStyle,
-  //         keyboardType: TextInputType.number,
-  //         maxLength: 1,
-  //         decoration: InputDecoration(
-  //           // contentPadding: EdgeInsets.all(0),
-  //           counter: Offstage(),
-  //           enabledBorder: OutlineInputBorder(
-  //               // borderSide: BorderSide(width: 2, color: primaryColor),
-  //               borderRadius: BorderRadius.circular(10)),
-  //           focusedBorder: OutlineInputBorder(
-  //               // borderSide: BorderSide(width: 2, color: primaryColor),
-  //               borderRadius: BorderRadius.circular(10)),
-
-  //           // hintStyle: MyStyles.hintTextStyle,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 }
