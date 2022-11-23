@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "251813202482",
+    "project_id": "phoneverify-cd3be",
+    "storage_bucket": "phoneverify-cd3be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:251813202482:android:dda007c0d658d9da248a2b",
+        "android_client_info": {
+          "package_name": "com.example.reg_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "251813202482-gkumftcasqa8cs71l61nqe40ojl29q4c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.reg_firebase",
+            "certificate_hash": "62e42eecc4750883e77803b1b4ea531d52a1295d"
+          }
+        },
+        {
+          "client_id": "251813202482-eq9fkd7j37vo4so2gi08ie0l2eppu89n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-K6Xg_kZXyDaapYfiHs-KA_I8mzqJSzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "251813202482-eq9fkd7j37vo4so2gi08ie0l2eppu89n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
